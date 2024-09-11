@@ -5,7 +5,7 @@ const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
-const { campgroundSchema } = require('./schemas')
+const { campgroundSchema, reviewSchema } = require('./schemas')
 const Campground = require('./models/campground')
 const Review = require('./models/review')
 
@@ -27,6 +27,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
+// Validate
 const validateCampground = (req, res, next) => {
     const { error } = campgroundSchema.validate(req.body)
     if (error) {
@@ -37,6 +38,17 @@ const validateCampground = (req, res, next) => {
     }
 }
 
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body)
+    if (error) {
+        const errorMessage = error.details.map(el => el.message).join(', ')
+        throw new ExpressError(errorMessage, 400)
+    } else {
+        next()
+    }
+}
+
+// Routes
 app.get('/', (req, res) => {
     res.render('home')
 })
@@ -78,7 +90,7 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
     res.redirect('/campgrounds')
 }))
 
-app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id)
     const review = new Review(req.body.review)
     campground.reviews.push(review)
@@ -87,6 +99,7 @@ app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
     res.redirect(`/campgrounds/${campground._id}`)
 }))
 
+// Route error handling
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
 })
@@ -96,6 +109,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
+// Run server
 app.listen(3000, () => {
     console.log("Serving on port 3000")
 })

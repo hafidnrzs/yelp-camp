@@ -24,16 +24,42 @@
         </div>
 
         <h2>Add a Review</h2>
-        <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-4">
+        <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" novalidate class="validated-form mb-4">
             <div>
                 <label class="form-label" for="rating">Rating</label>
                 <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="review"></label>
-                <textarea class="form-control" name="review[body]" id="review" cols="30" rows="3"></textarea>
+                <textarea class="form-control" name="review[body]" id="review" cols="30" rows="3" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
-            <button class="btn btn-success">Submit</button>
+            <div>
+                <button class="btn btn-success">Submit</button>
+            </div>
         </form>
     </div>
 </div>
+
+<script>
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.validated-form')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
