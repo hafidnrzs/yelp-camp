@@ -22,5 +22,18 @@
                 2 days ago
             </footer>
         </div>
+
+        <h2>Add a Review</h2>
+        <form action="" class="mb-4">
+            <div>
+                <label class="form-label" for="rating">Rating</label>
+                <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="review"></label>
+                <textarea class="form-control" name="review[body]" id="review" cols="30" rows="3"></textarea>
+            </div>
+            <button class="btn btn-success">Submit</button>
+        </form>
     </div>
 </div>
