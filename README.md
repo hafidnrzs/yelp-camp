@@ -10,3 +10,4 @@ Web application project built on Node.js and Mongo from the Udemy course - [The 
 -   [ejs](https://ejs.co/)
 -   [Bootstrap](https://getbootstrap.com/)
 -   [joi](https://joi.dev/)
+-   [Passport.js](https://www.passportjs.org/)
