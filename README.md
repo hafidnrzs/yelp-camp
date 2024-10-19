@@ -14,6 +14,7 @@ Web application project built on Node.js and Mongo from the Udemy course - [The 
 -   [Cloudinary](https://cloudinary.com/): Cloud-based service for managing media assets (images and videos)
 -   [connect-flash](https://www.npmjs.com/package/connect-flash): Middleware for sending temporary/flash message in Express
 -   [Multer](https://www.npmjs.com/package/multer): Middleware for handling multipart/form-data, primarily for file uploads
+-   [MapBox](https://www.mapbox.com/): Platform for creating customizable maps and geocoding services
 
 ## How to run the project
 
