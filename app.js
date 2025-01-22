@@ -1,6 +1,7 @@
-if (process.env.NODE_ENV !== "production") {
-    require('dotenv').config()
-}
+// if (process.env.NODE_ENV !== "production") {
+//     require('dotenv').config()
+// }
+require('dotenv').config()
 
 const express = require('express')
 const path = require('path')
@@ -13,7 +14,8 @@ const ExpressError = require('./utils/ExpressError')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user')
-const mongoSanitize = require('express-mongo-sanitize');
+const mongoSanitize = require('express-mongo-sanitize')
+const helmet = require('helmet')
 
 const campgroundRoutes = require('./routes/campgrounds')
 const reviewRoutes = require('./routes/reviews')
@@ -37,6 +39,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(mongoSanitize())
+app.use(helmet({ contentSecurityPolicy: false }))
 
 const sessionConfig = {
     name: 'blah',
